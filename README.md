@@ -40,7 +40,6 @@ The dataset contains ride-level transactional data with the following attributes
 
 Raw Data → Cleaning → Transformation → Final Table → Validation → Feature Engineering → Views → Analysis
 
-<<<<<<< HEAD
 =======
 ### Architecture Diagram
 
@@ -49,8 +48,6 @@ The diagram below represents the complete data pipeline, including data ingestio
 ![Architecture Diagram](architecture.png)
 
 ---
-
->>>>>>> 774fbf2 (Added architecture diagram to README)
 ### Data Cleaning
 
 * Standardized text fields (lowercase, trimming, formatting)
@@ -221,13 +218,7 @@ ride-booking-analytics/
 │   ├── 07_views.sql
 │   └── 08_analysis_and_insights.sql
 │
-<<<<<<< HEAD
-=======
 ├── architecture.png
->>>>>>> 774fbf2 (Added architecture diagram to README)
-├── README.md
-└── .gitignore
-```
 
 ---
 
@@ -252,9 +243,4 @@ ride-booking-analytics/
 ---
 
 ## Author
-
-<<<<<<< HEAD
 Rohit Kumar
-=======
-Rohit Kumar
->>>>>>> 774fbf2 (Added architecture diagram to README)
