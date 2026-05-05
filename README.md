@@ -1,191 +1,200 @@
-# 🚗 Ride Booking Analytics (SQL Project)
+# Ride Booking Analytics (SQL Project)
 
-## 📌 Overview
+## Overview
 
-This project presents a comprehensive analysis of a ride-booking dataset using **PostgreSQL**. The objective is to uncover patterns in ride completion, revenue generation, customer behavior, and operational inefficiencies through structured SQL workflows.
+This project analyzes a ride-booking dataset using PostgreSQL to understand operational performance, revenue patterns, customer behavior, and service quality.
 
-The project follows a complete **data pipeline approach** — from raw data ingestion to final business insights — simulating a real-world analytics workflow.
-
----
-
-## 🎯 Objectives
-
-* Analyze ride completion and failure patterns
-* Understand revenue distribution across payment methods and vehicle types
-* Identify peak demand hours and usage trends
-* Evaluate customer contribution to overall revenue
-* Assess service quality using rating distributions
-* Detect operational inefficiencies (e.g., driver cancellations)
+The work follows a structured data pipeline approach, starting from raw data and progressing through cleaning, transformation, validation, and analysis to generate actionable insights.
 
 ---
 
-## 🗂️ Dataset Description
+## Objectives
 
-The dataset contains ride-level transactional data with the following key attributes:
-
-* `booking_id` – Unique ride identifier
-* `customer_id` – User identifier
-* `booking_status` – Ride outcome (completed, cancelled, etc.)
-* `ride_timestamp` – Date and time of ride
-* `vehicle_type` – Type of ride selected
-* `pickup_location`, `drop_location` – Ride locations
-* `booking_value` – Revenue generated per ride
-* `ride_distance` – Distance of ride
-* `driver_rating`, `customer_rating` – Ratings
-* `payment_method` – Mode of payment
+* Evaluate ride completion and failure patterns
+* Analyze revenue distribution across payment methods and vehicle types
+* Identify peak demand periods
+* Understand customer contribution to revenue
+* Assess service quality using ratings
+* Identify operational inefficiencies
 
 ---
 
-## ⚙️ Project Workflow
+## Dataset Description
 
-```text
-Raw Data → Cleaning → Transformation → Final Table → Validation 
-→ Feature Engineering → Views → Analysis → Insights
-```
+The dataset contains ride-level transactional data with the following attributes:
 
-### 1. Data Cleaning
+* `booking_id`: Unique identifier for each ride
+* `customer_id`: Customer identifier
+* `booking_status`: Ride outcome (completed, cancelled, etc.)
+* `ride_timestamp`: Date and time of the ride
+* `vehicle_type`: Type of vehicle selected
+* `pickup_location`, `drop_location`: Ride locations
+* `booking_value`: Revenue generated per ride
+* `ride_distance`: Distance of the ride
+* `driver_rating`, `customer_rating`: Ratings
+* `payment_method`: Mode of payment
 
-* Standardized text fields (lowercase, trimmed, formatted)
-* Converted invalid values (`'null'`, empty strings) to SQL NULL
-* Created unified timestamp (`ride_timestamp`)
+---
 
-### 2. Transformation
+## Project Workflow
 
-* Converted numeric fields from TEXT → FLOAT safely
-* Built structured table (`rides`) for analysis
+Raw Data → Cleaning → Transformation → Final Table → Validation → Feature Engineering → Views → Analysis
 
-### 3. Final Table Creation
+### Data Cleaning
 
-* Deduplicated rides using window functions
-* Created `rides_final` (one row per booking_id)
+* Standardized text fields (lowercase, trimming, formatting)
+* Converted invalid values (empty strings, 'null') into SQL NULL
+* Created a unified timestamp column (`ride_timestamp`)
 
-### 4. Validation
+### Transformation
 
-* Checked duplicates, null values, and inconsistencies
-* Ensured data integrity for completed rides
+* Converted numeric fields from TEXT to numeric types
+* Created structured table (`rides`) for analysis
 
-### 5. Feature Engineering
+### Final Table Creation
+
+* Removed duplicate bookings using window functions
+* Created `rides_final` ensuring one record per booking
+
+### Validation
+
+* Checked for duplicates, null values, and invalid entries
+* Verified completeness of key fields for completed rides
+
+### Feature Engineering
 
 * Handled missing values (e.g., payment method)
-* Created performance indexes for faster querying
+* Added indexes for performance optimization
 
-### 6. Analytical Views
+### Analytical Views
 
-Reusable SQL views were created for:
+Created reusable views for:
 
 * KPI metrics
 * Time-based analysis
-* Payment insights
+* Payment distribution
 * Customer statistics
 * Cancellation patterns
-* Rating vs revenue relationships
+* Rating vs revenue analysis
 
 ---
 
-## 📊 Key Insights
+## Key Insights
 
-### 🚦 Ride Completion
+### Ride Completion
 
-* Only **62.21% of rides are completed**
-* ~38% of rides fail, indicating operational inefficiency
-* **Driver cancellations (~47%)** are the biggest contributor
+* Completion rate is approximately 62%
+* Around 38% of rides fail
+* Driver cancellations are the largest contributor
 
-👉 *Insight:* Problem lies in **supply-side reliability**, not customer behavior
-
----
-
-### 💳 Payment Trends
-
-* **UPI contributes ~45% of total revenue**
-* Cash (~25%) is still significant
-* Digital payments dominate overall
-
-👉 *Insight:* Strong user preference for **cashless transactions**
+Interpretation:
+Failures are primarily driven by supply-side issues rather than customer behavior.
 
 ---
 
-### ⏰ Demand Patterns
+### Payment Trends
 
-* Peak demand: **5 PM – 8 PM (highest at 6 PM)**
-* Lowest demand: **1 AM – 5 AM**
+* UPI contributes the largest share of revenue (~45%)
+* Cash remains significant (~25%)
 
-👉 *Insight:* Clear **commuting behavior pattern**
+Interpretation:
+Users show a strong preference for digital payment methods.
 
 ---
 
-### 💰 Revenue Distribution
+### Demand Patterns
+
+* Peak demand occurs between 5 PM and 8 PM
+* Lowest activity occurs between 1 AM and 5 AM
+
+Interpretation:
+Demand aligns with daily commuting behavior.
+
+---
+
+### Revenue Distribution
 
 * Revenue closely follows ride volume
-* No significant high-value time slots outside peak hours
+* No evidence of significantly higher-value time periods
 
-👉 *Insight:* Revenue driven by **volume, not pricing differences**
-
----
-
-### 🚘 Vehicle Usage
-
-* **Auto & Go Mini dominate (~45% combined rides)**
-* Premium rides contribute <3%
-
-👉 *Insight:* Platform is driven by **affordable ride options**
+Interpretation:
+Revenue is driven by volume rather than pricing differences.
 
 ---
 
-### 👥 Customer Contribution
+### Vehicle Usage
 
-* Top 10 customers contribute only **~9.2% of revenue**
+* Affordable options (Auto, Go Mini) dominate usage and revenue
+* Premium services contribute minimally
 
-👉 *Insight:* Revenue is **well distributed**, not dependent on few users
-
----
-
-### 📍 Location Analysis
-
-* No single pickup location dominates (<1% each)
-
-👉 *Insight:* Demand is **geographically distributed**
+Interpretation:
+The platform is primarily driven by cost-sensitive users.
 
 ---
 
-### ❌ Cancellation Breakdown
+### Customer Contribution
 
-* Driver cancellations (~47%)
-* No driver found (~18%)
-* Customer cancellations (~18%)
+* Top 10 customers contribute approximately 9% of total revenue
 
-👉 *Insight:* Over **65% failures are supply-side issues**
-
----
-
-### ⭐ Ratings
-
-* Ratings concentrated between **4.0 – 4.6**
-* Very few low ratings
-
-👉 *Insight:* **High service quality**, but poor availability
+Interpretation:
+Revenue is distributed across a broad customer base, indicating scalability.
 
 ---
 
-### 🔥 Final Combined Insight
+### Location Distribution
 
-> Despite high driver ratings, the platform experiences a relatively low completion rate.
-> This indicates a gap between **service quality (post-ride experience)** and
-> **operational efficiency (ride fulfillment and driver availability)**.
+* No single pickup location dominates ride volume
 
----
-
-## 🛠️ Tech Stack
-
-* **PostgreSQL**
-* **SQL (Advanced)**
-* **pgAdmin**
-* **Git & GitHub**
+Interpretation:
+Demand is geographically distributed rather than concentrated.
 
 ---
 
-## 📁 Project Structure
+### Cancellation Analysis
 
-```text
+* Driver cancellations are the largest category
+* A significant portion of failures is due to lack of driver availability
+
+Interpretation:
+Improving driver allocation and availability could significantly increase completion rates.
+
+---
+
+### Ratings
+
+* Ratings are concentrated between 4.0 and 4.6
+* Low ratings are rare
+
+Interpretation:
+Service quality is consistently high.
+
+---
+
+### Final Observation
+
+Despite high customer satisfaction (ratings), the platform shows a relatively low completion rate.
+
+This indicates a gap between:
+
+* Service quality (post-ride experience)
+* Operational efficiency (ride fulfillment and driver availability)
+
+Improving supply-side operations would likely have the highest impact on overall performance.
+
+---
+
+## Tech Stack
+
+* PostgreSQL
+* SQL
+* pgAdmin
+* Git and GitHub
+
+---
+
+## Project Structure
+
+```
 ride-booking-analytics/
 │
 ├── data/
@@ -207,32 +216,26 @@ ride-booking-analytics/
 
 ---
 
-## 🚀 How to Run
+## How to Run
 
-1. Import dataset into PostgreSQL using pgAdmin
-2. Execute SQL files in order:
+1. Import the dataset into PostgreSQL using pgAdmin
+2. Execute SQL files sequentially:
 
    * Table creation → Cleaning → Transformation → Final tables
    * Validation → Feature engineering → Views → Analysis
-3. Review outputs and insights
+3. Review query outputs and insights
 
 ---
 
-## 📌 Future Improvements
+## Future Improvements
 
-* Add dashboard visualization (Power BI / Tableau)
-* Implement predictive modeling (demand forecasting)
+* Add visualization layer (Power BI / Tableau)
+* Implement demand forecasting models
 * Optimize driver allocation strategies
-* Real-time analytics pipeline
+* Build real-time analytics pipeline
 
 ---
 
-## 👨‍💻 Author
+## Author
 
-**Rohit Kumar**
-
----
-
-## ⭐ If you found this useful
-
-Give it a ⭐ on GitHub!
+Rohit Kumar
