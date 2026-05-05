@@ -219,7 +219,7 @@ ride-booking-analytics/
 │   └── 08_analysis_and_insights.sql
 │
 ├── architecture.png
-
+```
 ---
 
 ## How to Run
